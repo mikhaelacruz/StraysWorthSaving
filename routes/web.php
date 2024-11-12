@@ -47,6 +47,8 @@ Route::middleware([
 
     Route::get('/adopt', [UserController::class, 'adopt'])->name('adopt');
 
+    Route::delete('/adopt/{id}', [AdminController::class, 'destroy'])->name('adopt.destroy')->middleware('checkAdmin');
+
     Route::get('/adoptionrequest/{strayId}', [UserController::class, 'adoptionrequest'])->name('adoptionrequest');
 
     Route::post('/adoptionrequest', [UserController::class, 'store'])->name('adoptionrequest.store');

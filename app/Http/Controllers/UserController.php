@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function adopt()
     {
-        $strays = DB::table('strays')->select('id', 'name', 'description', 'photo_url')->get();
+        $strays = DB::table('strays')->select('id', 'name', 'description', 'photo_url')->paginate(9);
         $user = Auth::user();
         $userIsAdmin = $user->isAdmin;
         return view('adopt', compact('strays', 'userIsAdmin'));
@@ -43,10 +43,10 @@ class UserController extends Controller
         try {
             $validated = $request->validate([
                 'stray_id' => 'required|exists:strays,id',
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
-                'contact_number' => 'required|string|max:15',
-                'location' => 'required|string|max:255',
+                'name' => 'required|string|max:50',
+                'email' => 'required|email|max:100',
+                'contact_number' => 'required|string|max:11',
+                'location' => 'required|string|max:20',
             ]);
 
             AdoptionRequest::create($validated);
@@ -69,12 +69,21 @@ class UserController extends Controller
         $userId = Auth::user()->id;
         $userIsAdmin = $user->isAdmin;
 
-        $requests = DB::table('adoptionrequests')
-            ->join('strays', function ($join) {
-                $join->on('adoptionrequests.stray_id', '=', 'strays.id');
-            })
-            ->select('adoptionrequests.id', 'strays.name as strayname', 'adoptionrequests.name as adoptername', 'adoptionrequests.contact_number', 'adoptionrequests.location')
-            ->get();
+        if ($userIsAdmin == 0)
+            $requests = DB::table('adoptionrequests')
+                ->join('strays', function ($join) {
+                    $join->on('adoptionrequests.stray_id', '=', 'strays.id');
+                })
+                ->where('adoptionrequests.email', $user->email)
+                ->select('adoptionrequests.id', 'strays.name as strayname', 'adoptionrequests.name as adoptername', 'adoptionrequests.contact_number', 'adoptionrequests.email', 'adoptionrequests.location')
+                ->paginate(5);
+        else
+            $requests = DB::table('adoptionrequests')
+                ->join('strays', function ($join) {
+                    $join->on('adoptionrequests.stray_id', '=', 'strays.id');
+                })
+                ->select('adoptionrequests.id', 'strays.name as strayname', 'adoptionrequests.name as adoptername', 'adoptionrequests.contact_number', 'adoptionrequests.email', 'adoptionrequests.location')
+                ->paginate(5);
 
         return view('adoptionrequests', compact('userIsAdmin', 'requests'));
     }

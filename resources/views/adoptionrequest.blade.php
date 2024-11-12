@@ -27,13 +27,6 @@
         <br>
 
         <div class="form-group">
-          <label for="user_id">User</label>
-          <input type="text" class="form-control" id="user_id" name="user_id" placeholder="Enter User Id" required>
-        </div>
-        <br>
-
-
-        <div class="form-group">
           <label for="name">Name</label>
           <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" required>
         </div>

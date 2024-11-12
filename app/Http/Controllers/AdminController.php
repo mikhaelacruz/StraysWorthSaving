@@ -17,8 +17,8 @@ class AdminController extends Controller
 
         try {
             $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'required|string|max:65535',
+                'name' => 'required|string|max:10',
+                'description' => 'required|string|max:100',
                 'photo_url' => 'required|string|max:65535',
             ]);
 
@@ -48,9 +48,9 @@ class AdminController extends Controller
         // Validate the incoming request
         $validated = $request->validate([
             'id' => 'required|exists:strays,id',
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:65535', // Adjust according to your needs
-            'photo_url' => 'nullable|string|max:65535', // Make it nullable if not always required
+            'name' => 'required|string|max:20',
+            'description' => 'required|string|max:100',
+            'photo_url' => 'nullable|string|max:65535',
         ]);
 
         try {
@@ -69,4 +69,12 @@ class AdminController extends Controller
         }
     }
 
+    public function destroy($strayId)
+    {
+        $stray = stray::find($strayId);
+
+        $stray->delete();
+
+        return redirect()->back()->withErrors(['error' => 'There was an error deleting the stray.']);
+    }
 }

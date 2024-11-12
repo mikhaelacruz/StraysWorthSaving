@@ -28,18 +28,30 @@
                             <a href="{{ route('editstray', ['strayId' => $stray->id]) }}" class="btn btn-primary btn-lg active"
                                 role="button" aria-pressed="true">Edit</a>
                             <br>
+                            <form id="delete-form" action="{{ route('adopt.destroy', $stray->id) }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+
+                            <button type="button"
+                                onclick="event.preventDefault(); document.getElementById('delete-form').submit();"
+                                class="btn btn-danger btn-lg active">
+                                DELETE
+                            </button>
+                            <br>
                         @endif
 
-
-                        <a href="{{ route('adoptionrequest', ['strayId' => $stray->id]) }}"
-                            class="btn btn-success btn-lg active" role="button" aria-pressed="true">Adopt</a>
+                        @if ($userIsAdmin == 0)
+                            <a href="{{ route('adoptionrequest', ['strayId' => $stray->id]) }}"
+                                class="btn btn-success btn-lg active" role="button" aria-pressed="true">Adopt</a>
+                        @endif
                     </div>
 
-
                 @endforeach
-
-
-
             </div>
+            <br>
+
+            {{$strays->links()}}
         </div>
 </x-app-layout>

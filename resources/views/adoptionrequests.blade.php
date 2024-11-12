@@ -16,6 +16,7 @@
             <th scope="col">Pet To Adopt</th>
             <th scope="col">Adopter</th>
             <th scope="col">Contact Number</th>
+            <th scope="col">Email</th>
             <th scope="col">Location</th>
           </tr>
         </thead>
@@ -30,6 +31,7 @@
         <td>{{ $request->strayname }}</td>
         <td>{{ $request->adoptername }}</td>
         <td>{{ $request->contact_number }}</td>
+        <td>{{ $request->email}}</td>
         <td>{{ $request->location }}</td>
         </tr>
 
@@ -37,6 +39,8 @@
 
 
         </tbody>
+
+        {{$requests->links()}}
       </table>
 
 
