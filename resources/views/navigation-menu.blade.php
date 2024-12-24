@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                <a href="{{ url('welcome') }}">
+                <a href="{{ url('home') }}">
                     <img class="block h-9 w-auto" src="https://www.clker.com/cliparts/B/c/Y/B/n/Z/orange-paw-print-md.png" alt="logo" />
                     
                     </a>
